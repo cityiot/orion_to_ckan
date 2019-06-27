@@ -29,6 +29,9 @@ def get_db_names(c):
     return filtered
 
 def get_servicepaths(c, names):
+    #dictionary with db:[servicepaths]
+    db2servicepaths = {}
+
     #mongo aggregate query to find FIWARE Service Paths in a Orion DB
     pipeline = [
         {"$group": {"_id": "$_id.servicePath"}}
@@ -37,19 +40,24 @@ def get_servicepaths(c, names):
     for n in names:
         d = c['orion-'+n]
         d.list_collection_names()
-        #['entities']
-
-        a = d.entities.aggregate(pipeline)
+        a = d['entities'].aggregate(pipeline)
         #<pymongo.command_cursor.CommandCursor object at 0x7fe502666470>
+        db2servicepaths[n] = list(a)
 
-        print("<--- Service Paths in DB {} ---".format(n)) #servers have py 3.5, f'' new format strings were only introduced in 3.6
-        pprint(list(a))
-        print("--->")
+    return db2servicepaths
 
 def get_infos():
     c = connection()
     names = get_db_names(c)
-    get_servicepaths(c, names)
+    return get_servicepaths(c, names)
+
+def print_infos(db2servicepaths):
+    for n, a in db2servicepaths.items():
+        print("<--- Service Paths in DB {} ---".format(n)) #servers have py 3.5, f'' new format strings were only introduced in 3.6
+        pprint(a)
+        print("--->")
 
 if __name__ == '__main__':
-    get_infos()
+    db2servicepaths = get_infos()
+    print_infos(db2servicepaths)
+
