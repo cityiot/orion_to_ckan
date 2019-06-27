@@ -9,8 +9,8 @@ def create_dataset(dataset_dict):
     #s = c.action.package_list()
     #pprint(s)
 
-    orgs = c.action.organization_list()
-    pprint(orgs)
+    #orgs = c.action.organization_list()
+    #pprint(orgs)
 
     #https://docs.ckan.org/en/latest/api/index.html#ckan.logic.action.create.package_create
     c.action.package_create(**dataset_dict)
