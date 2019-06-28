@@ -35,7 +35,7 @@ else: #use snapshot of db read
 
 for dbname, servicepaths in db2servicepaths.items():
     dsd = make_dataset_dict(dbname, "Service Paths: {}".format(servicepaths))
-    package = create_ckan_entries.create_dataset(dsd)
+    package = create_ckan_entries.get_or_create_dataset(dsd)
 
     url = "http://pan0107.panoulu.net:8000/orion/v2/entities"
     tenant = dbname
@@ -44,6 +44,7 @@ for dbname, servicepaths in db2servicepaths.items():
         print("WARNING: no service paths for {}, skipping.".format(dbname))
         continue
 
-    service_path = servicepaths[0]['_id']
-    resource = create_ckan_entries.create_resource(package, url, tenant, service_path)
-    print(resource)
+    for service_path in servicepaths:
+        sid = service_path['_id']
+        resource = create_ckan_entries.create_resource(package, url, tenant, sid)
+        print(resource)

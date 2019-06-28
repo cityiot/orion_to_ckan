@@ -21,9 +21,11 @@ def get_or_create_dataset(dataset_dict):
     
 def create_resource(package, url, tenant, service_path):
     #https://docs.ckan.org/en/latest/api/index.html#ckan.logic.action.create.resource_create
+    
+    name = "{} : {}".format(tenant, service_path)
     resource_dict = {
         'package_id': package['id'],
-        'name': tenant,
+        'name': name,
         'url': url,
         'format': 'fiware-ngsi',
         'tenant': tenant,
