@@ -6,16 +6,17 @@ from pprint import pprint
 
 c = RemoteCKAN('http://pan0109.panoulu.net:5000/', apikey='555f89e9-2610-41c4-ae38-9148d1b4bba0')
 
-def create_dataset(dataset_dict):
-    #s = c.action.package_list()
-    #pprint(s)
-
-    #orgs = c.action.organization_list()
-    #pprint(orgs)
-
-    #https://docs.ckan.org/en/latest/api/index.html#ckan.logic.action.create.package_create
-    package = c.action.package_create(**dataset_dict)
-    #pprint(package)
+def get_or_create_dataset(dataset_dict):    
+    datasets = c.action.package_list() #could cache but just re-get for simplicity and safety now, the load does not matter here
+    pprint(datasets)
+    name = dataset_dict['name']
+    package = None
+    if name in datasets:
+        package = c.action.package_show(id=name)
+    else:    
+        #https://docs.ckan.org/en/latest/api/index.html#ckan.logic.action.create.package_create
+        package = c.action.package_create(**dataset_dict)
+        #pprint(package)
     return package
     
 def create_resource(package, url, tenant, service_path):
@@ -45,13 +46,13 @@ def create_resource(package, url, tenant, service_path):
 def test_update():
     # Put the details of the dataset we're going to create into a dict.
     dataset_dict = {
-        'name': 'autosync_test_name13',
+        'name': 'autosync_test_name',
         'notes': 'autosync test notes',
         'owner_org': 'cityiot'
     }
 
-    #package = create_dataset(dataset_dict)
-    package = {'id': '5077a989-3c66-4aa0-8031-ae832c46866e'} #'autosync_test_name13'
+    package = get_or_create_dataset(dataset_dict)
+    #package = {'id': '5077a989-3c66-4aa0-8031-ae832c46866e'} #'autosync_test_name13'
     create_resource(package, "http://example.com", "tenant", "/servicepath")
 
 if __name__ == '__main__':
