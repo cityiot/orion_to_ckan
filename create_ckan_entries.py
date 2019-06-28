@@ -18,14 +18,14 @@ def create_dataset(dataset_dict):
     #pprint(package)
     return package
     
-def create_resource(package):
+def create_resource(package, url, tenant, service_path):
     #https://docs.ckan.org/en/latest/api/index.html#ckan.logic.action.create.resource_create
     resource_dict = {
         'package_id': package['id'],
-        'url': 'http://pan0107.panoulu.net:8000/orion/v2/entities?type=WeatherObserved',
+        'url': url,
         'format': 'fiware-ngsi',
-        'tenant': 'weather',
-        'service_path': '/oulu',
+        'tenant': tenant,
+        'service_path': service_path,
         'auth_type': 'none'
         #'resource_type': 'fiware-ngsi' #is this same as 'format' in gui?
     }
@@ -39,6 +39,8 @@ def create_resource(package):
         view_type = 'ngsi_view'
         )
 
+    return resource
+
 def test_update():
     # Put the details of the dataset we're going to create into a dict.
     dataset_dict = {
@@ -49,7 +51,7 @@ def test_update():
 
     #package = create_dataset(dataset_dict)
     package = {'id': '5077a989-3c66-4aa0-8031-ae832c46866e'} #'autosync_test_name13'
-    create_resource(package)
+    create_resource(package, "http://example.com", "tenant", "/servicepath")
 
 if __name__ == '__main__':
     test_update()
