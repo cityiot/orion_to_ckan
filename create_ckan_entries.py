@@ -22,6 +22,7 @@ def create_resource(package, url, tenant, service_path):
     #https://docs.ckan.org/en/latest/api/index.html#ckan.logic.action.create.resource_create
     resource_dict = {
         'package_id': package['id'],
+        'name': tenant,
         'url': url,
         'format': 'fiware-ngsi',
         'tenant': tenant,
