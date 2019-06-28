@@ -65,8 +65,7 @@ def create_resource(package, url, tenant, service_path):
     package_name = package['name']
     resource = find_existing_resource(package_name, service_path)
     if resource is not None: #exists, let's patch
-        print("Patching existing Resource:")
-        pprint(resource)
+        print("Patching existing Resource: {}, {}".format(package_name, service_path))
         resource_dict['id'] = resource['id']
         resource = c.action.resource_patch(**resource_dict)        
     else:
