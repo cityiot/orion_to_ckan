@@ -37,7 +37,7 @@ for dbname, servicepaths in db2servicepaths.items():
     dsd = make_dataset_dict(dbname, "Service Paths: {}".format(servicepaths))
     package = create_ckan_entries.get_or_create_dataset(dsd)
 
-    url = "http://pan0107.panoulu.net:8000/orion/v2/entities"
+    url = "http://orion:8000/orion/v2/entities"
     tenant = dbname
 
     if len(servicepaths) == 0:

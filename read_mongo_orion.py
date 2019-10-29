@@ -6,7 +6,7 @@ import pymongo
 from pymongo import MongoClient
 
 def connection():
-    c = MongoClient()
+    c = MongoClient(host=['mongodb'])
     #MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True)
     #c.admin.command('ismaster')
     return c
