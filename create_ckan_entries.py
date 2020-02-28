@@ -4,7 +4,7 @@ from ckanapi import RemoteCKAN
 import pprint
 from pprint import pprint
 
-c = RemoteCKAN('http://localhost:5000/', apikey='***REMOVED***')
+c = RemoteCKAN('http://localhost:5000/', apikey='')
 
 def get_packageinfos():
     package_list_with_resources = c.action.current_package_list_with_resources()
